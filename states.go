@@ -77,12 +77,18 @@ type ClimateState struct {
 
 // DriveState contains the current drive state of the vehicle
 type DriveState struct {
-	ShiftState interface{} `json:"shift_state"`
-	Speed      float64     `json:"speed"`
-	Latitude   float64     `json:"latitude"`
-	Longitude  float64     `json:"longitude"`
-	Heading    int         `json:"heading"`
-	GpsAsOf    int64       `json:"gps_as_of"`
+	GpsAsOf                 int         `json:"gps_as_of"`
+	Heading                 int         `json:"heading"`
+	Latitude                float64     `json:"latitude"`
+	Longitude               float64     `json:"longitude"`
+	NativeLatitude          float64     `json:"native_latitude"`
+	NativeLocationSupported int         `json:"native_location_supported"`
+	NativeLongitude         float64     `json:"native_longitude"`
+	NativeType              string      `json:"native_type"`
+	Power                   int         `json:"power"`
+	ShiftState              string      `json:"shift_state"`
+	Speed                   interface{} `json:"speed"`
+	Timestamp               int64       `json:"timestamp"`
 }
 
 // GuiSettings contains the current GUI settings of the vehicle
