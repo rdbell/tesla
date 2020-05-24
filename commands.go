@@ -105,6 +105,13 @@ func (v Vehicle) OpenChargePort() error {
 	return err
 }
 
+// CloseChargePort closes the vehicle's charge port
+func (v Vehicle) CloseChargePort() error {
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_port_door_close"
+	_, err := sendCommand(apiURL, nil)
+	return err
+}
+
 // ResetValetPIN resets the valet mode PIN, if set
 func (v Vehicle) ResetValetPIN() error {
 	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/reset_valet_pin"
