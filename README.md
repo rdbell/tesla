@@ -33,6 +33,16 @@ TESLA_CLIENT_SECRET=c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9
 Here's an example (more in the /examples project directory):
 
 ```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/k0kubun/pp"
+	"github.com/rdbell/tesla"
+)
+
 func main() {
 	client, err := tesla.NewClient(
 		&tesla.Auth{
@@ -57,7 +67,7 @@ func main() {
 	}
 
 	fmt.Println(status)
-	fmt.Println(vehicle.HonkHorn())
+	//fmt.Println(vehicle.HonkHorn())
 
 	// Autopark
 	// Use with care, as this will move your car
@@ -67,24 +77,19 @@ func main() {
 
 	// Stream vehicle events
 	eventChan, errChan, err := vehicle.Stream()
-	if err != nil {
-		fmt.Println(err)
-		return
-	} else {
-		for {
-			select {
-			case event := <-eventChan:
-				eventJSON, _ := json.Marshal(event)
-				fmt.Println(string(eventJSON))
-			case err = <-errChan:
-				fmt.Println(err)
-				if err.Error() == "HTTP stream closed" {
-					fmt.Println("Reconnecting!")
-					eventChan, errChan, err := vehicle.Stream()
-					if err != nil {
-						fmt.Println(err)
-						return
-					}
+
+	for {
+		select {
+		case event := <-eventChan:
+			pp.Print(event)
+		case err = <-errChan:
+			fmt.Println(err)
+			if err.Error() == "HTTP stream closed" {
+				fmt.Println("Reconnecting!")
+				eventChan, errChan, err = vehicle.Stream()
+				if err != nil {
+					fmt.Println(err)
+					return
 				}
 			}
 		}
