@@ -256,6 +256,14 @@ func (v Vehicle) windows(action string) error {
 	return err
 }
 
+// Sets sentry mode on or off (true or false)
+func (v Vehicle) SetSentryMode(on bool) error {
+	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_sentry_mode"
+	theJson := `{"on": "` + strconv.FormatBool(on) + `"}`
+	_, err := sendCommand(apiUrl, []byte(theJson))
+	return err
+}
+
 // Sends a command to the vehicle
 func sendCommand(url string, reqBody []byte) ([]byte, error) {
 	body, err := ActiveClient.post(url, reqBody)
