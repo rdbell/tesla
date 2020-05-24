@@ -264,6 +264,25 @@ func (v Vehicle) SetSentryMode(on bool) error {
 	return err
 }
 
+// Sets heat for seat number (0=driver, 1=passenger, 2=rear-left...)
+func (v Vehicle) HeatSeat(seat, level int) error {
+	//requires climate to be set first
+	err := v.StartAirConditioning()
+	if err != nil {
+		panic(err)
+	}
+	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_seat_heater_request"
+	seatRequest := struct {
+		Heater int `json:"heater"`
+		Level  int `json:"level"`
+	}{
+		seat, level,
+	}
+	body, _ := json.Marshal(seatRequest)
+	_, err = sendCommand(apiUrl, body)
+	return err
+}
+
 // Sends a command to the vehicle
 func sendCommand(url string, reqBody []byte) ([]byte, error) {
 	body, err := ActiveClient.post(url, reqBody)
