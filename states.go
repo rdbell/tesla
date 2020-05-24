@@ -7,47 +7,49 @@ import (
 
 // ChargeState contains the current charge states that exist within the vehicle
 type ChargeState struct {
-	ChargingState               string      `json:"charging_state"`
-	ChargeLimitSoc              int         `json:"charge_limit_soc"`
-	ChargeLimitSocStd           int         `json:"charge_limit_soc_std"`
-	ChargeLimitSocMin           int         `json:"charge_limit_soc_min"`
-	ChargeLimitSocMax           int         `json:"charge_limit_soc_max"`
-	ChargeToMaxRange            bool        `json:"charge_to_max_range"`
 	BatteryHeaterOn             bool        `json:"battery_heater_on"`
-	NotEnoughPowerToHeat        bool        `json:"not_enough_power_to_heat"`
-	MaxRangeChargeCounter       int         `json:"max_range_charge_counter"`
-	FastChargerPresent          bool        `json:"fast_charger_present"`
-	FastChargerType             string      `json:"fast_charger_type"`
-	BatteryRange                float64     `json:"battery_range"`
-	EstBatteryRange             float64     `json:"est_battery_range"`
-	IdealBatteryRange           float64     `json:"ideal_battery_range"`
 	BatteryLevel                int         `json:"battery_level"`
-	UsableBatteryLevel          int         `json:"usable_battery_level"`
-	BatteryCurrent              interface{} `json:"battery_current"`
-	ChargeEnergyAdded           float64     `json:"charge_energy_added"`
-	ChargeMilesAddedRated       float64     `json:"charge_miles_added_rated"`
-	ChargeMilesAddedIdeal       float64     `json:"charge_miles_added_ideal"`
-	ChargerVoltage              interface{} `json:"charger_voltage"`
-	ChargerPilotCurrent         interface{} `json:"charger_pilot_current"`
-	ChargerActualCurrent        interface{} `json:"charger_actual_current"`
-	ChargerPower                interface{} `json:"charger_power"`
-	TimeToFullCharge            float64     `json:"time_to_full_charge"`
-	TripCharging                interface{} `json:"trip_charging"`
-	ChargeRate                  float64     `json:"charge_rate"`
-	ChargePortDoorOpen          bool        `json:"charge_port_door_open"`
-	MotorizedChargePort         bool        `json:"motorized_charge_port"`
-	ScheduledChargingStartTime  interface{} `json:"scheduled_charging_start_time"`
-	ScheduledChargingPending    bool        `json:"scheduled_charging_pending"`
-	UserChargeEnableRequest     interface{} `json:"user_charge_enable_request"`
-	ChargeEnableRequest         bool        `json:"charge_enable_request"`
-	EuVehicle                   bool        `json:"eu_vehicle"`
-	ChargerPhases               interface{} `json:"charger_phases"`
-	ChargePortLatch             string      `json:"charge_port_latch"`
+	BatteryRange                float64     `json:"battery_range"`
 	ChargeCurrentRequest        int         `json:"charge_current_request"`
 	ChargeCurrentRequestMax     int         `json:"charge_current_request_max"`
+	ChargeEnableRequest         bool        `json:"charge_enable_request"`
+	ChargeEnergyAdded           float64     `json:"charge_energy_added"`
+	ChargeLimitSoc              int         `json:"charge_limit_soc"`
+	ChargeLimitSocMax           int         `json:"charge_limit_soc_max"`
+	ChargeLimitSocMin           int         `json:"charge_limit_soc_min"`
+	ChargeLimitSocStd           int         `json:"charge_limit_soc_std"`
+	ChargeMilesAddedIdeal       float64     `json:"charge_miles_added_ideal"`
+	ChargeMilesAddedRated       float64     `json:"charge_miles_added_rated"`
+	ChargePortColdWeatherMode   interface{} `json:"charge_port_cold_weather_mode"`
+	ChargePortDoorOpen          bool        `json:"charge_port_door_open"`
+	ChargePortLatch             string      `json:"charge_port_latch"`
+	ChargeRate                  float64     `json:"charge_rate"`
+	ChargeToMaxRange            bool        `json:"charge_to_max_range"`
+	ChargerActualCurrent        int         `json:"charger_actual_current"`
+	ChargerPhases               interface{} `json:"charger_phases"`
+	ChargerPilotCurrent         int         `json:"charger_pilot_current"`
+	ChargerPower                int         `json:"charger_power"`
+	ChargerVoltage              int         `json:"charger_voltage"`
+	ChargingState               string      `json:"charging_state"`
+	ConnChargeCable             string      `json:"conn_charge_cable"`
+	EstBatteryRange             float64     `json:"est_battery_range"`
+	FastChargerBrand            string      `json:"fast_charger_brand"`
+	FastChargerPresent          bool        `json:"fast_charger_present"`
+	FastChargerType             string      `json:"fast_charger_type"`
+	IdealBatteryRange           float64     `json:"ideal_battery_range"`
 	ManagedChargingActive       bool        `json:"managed_charging_active"`
-	ManagedChargingUserCanceled bool        `json:"managed_charging_user_canceled"`
 	ManagedChargingStartTime    interface{} `json:"managed_charging_start_time"`
+	ManagedChargingUserCanceled bool        `json:"managed_charging_user_canceled"`
+	MaxRangeChargeCounter       int         `json:"max_range_charge_counter"`
+	MinutesToFullCharge         int         `json:"minutes_to_full_charge"`
+	NotEnoughPowerToHeat        bool        `json:"not_enough_power_to_heat"`
+	ScheduledChargingPending    bool        `json:"scheduled_charging_pending"`
+	ScheduledChargingStartTime  interface{} `json:"scheduled_charging_start_time"`
+	TimeToFullCharge            float64     `json:"time_to_full_charge"`
+	Timestamp                   int64       `json:"timestamp"`
+	TripCharging                bool        `json:"trip_charging"`
+	UsableBatteryLevel          int         `json:"usable_battery_level"`
+	UserChargeEnableRequest     bool        `json:"user_charge_enable_request"`
 }
 
 // ClimateState contains the current climate states availale from the vehicle
@@ -102,11 +104,13 @@ type DriveState struct {
 
 // GuiSettings contains the current GUI settings of the vehicle
 type GuiSettings struct {
-	GuiDistanceUnits    string `json:"gui_distance_units"`
-	GuiTemperatureUnits string `json:"gui_temperature_units"`
-	GuiChargeRateUnits  string `json:"gui_charge_rate_units"`
 	Gui24HourTime       bool   `json:"gui_24_hour_time"`
+	GuiChargeRateUnits  string `json:"gui_charge_rate_units"`
+	GuiDistanceUnits    string `json:"gui_distance_units"`
 	GuiRangeDisplay     string `json:"gui_range_display"`
+	GuiTemperatureUnits string `json:"gui_temperature_units"`
+	ShowRangeUnits      bool   `json:"show_range_units"`
+	Timestamp           int64  `json:"timestamp"`
 }
 
 // VehicleState contains the current state of the vehicle
