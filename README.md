@@ -1,32 +1,32 @@
 # tesla
-[![wercker status](https://app.wercker.com/status/c8e21c53ed5763b0b58f763670753732/m "wercker status")](https://app.wercker.com/project/bykey/c8e21c53ed5763b0b58f763670753732)
-
 <p align="center">
-  <img src="https://raw.githubusercontent.com/jsgoecke/tesla/master/images/gotesla.png">
-  <img src="https://raw.githubusercontent.com/jsgoecke/tesla/master/images/tesla.png">
+  <img src="https://raw.githubusercontent.com/rdbell/tesla/master/images/gotesla.png" width="200">
 </p>
 
-This library provides a wrapper around the API to easily query and command the a [Tesla Model S](https://www.teslamotors.com/models) remotely in Go.
+This library provides a golang wrapper around the Tesla API to easily query and command your Tesla Vehicle (https://www.tesla.com/) remotely in Go.
 
 ## Library Documentation
 
-[https://godoc.org/github.com/jsgoecke/tesla](https://godoc.org/github.com/jsgoecke/tesla)
+[https://godoc.org/github.com/rdbell/tesla](https://godoc.org/github.com/rdbell/tesla)
 
 ## API Documentation
 
 [View Tesla JSON API Documentation](http://docs.timdorr.apiary.io/)
 
-This is unofficial documentation of the Tesla JSON API used by the iOS and Android apps. The API provides functionality to monitor and control the Model S (and future Tesla vehicles) remotely. The project provides both a documention of the API and a Go library for accessing it.
+This is unofficial documentation of the Tesla JSON API used by the iOS and Android apps. The API provides functionality to monitor and control Tesla vehicles remotely. The project provides both a documention of the API and a Go library for accessing it.
 
 ## Installation
 
 ```
-go get github.com/jsgoecke/tesla
+go get github.com/jsgoecke/rdbell
 ```
 
 ## Tokens
 
-You may get your tokens to use as client_id and client_secret [here](http://pastebin.com/fX6ejAHd).
+```
+TESLA_CLIENT_ID=e4a9949fcfa04068f59abb5a658f2bac0a3428e4652315490b659d5ab3f35a9e
+TESLA_CLIENT_SECRET=c75f14bbadc8bee3a7594412c31416f8300256d7668ea7e6e7f06727bfb9d220
+```
 
 ## Usage
 
@@ -61,8 +61,8 @@ func main() {
 
 	// Autopark
 	// Use with care, as this will move your car
-	vehicle.AutoparkForward()
-	vehicle.AutoparkReverse()
+	// vehicle.AutoparkForward()
+	// vehicle.AutoparkReverse()
 	// Use with care, as this will move your car
 
 	// Stream vehicle events
@@ -92,20 +92,12 @@ func main() {
 }
 ```
 
-## Examples
-
-* [Commanding a Tesla Model S with the Amazon Echo](https://medium.com/@jsgoecke/commanding-a-tesla-model-s-with-the-amazon-echo-a06f975364b8#.xoctd3yni)
-
 ## Credits
+
+This repo was forked from [https://github.com/jsgoecke/tesla](https://github.com/jsgoecke/tesla)
 
 Thank you to [Tim Dorr](https://github.com/timdorr) who did the heavy lifting to document the Tesla API and also created the [model-s-api Ruby Gem](https://github.com/timdorr/model-s-api).
 
-## Current Issues
-
-Right now Tesla appears to have broken the Autopark and Homelink commands of their API in a recent cloud API update. I have started a thread [here](https://forums.teslamotors.com/forum/forums/cloud-api-autopark-homelink-commands-now-returning-400) and will update as information becomes available. And fix if/when the community discovers the fix. Keep an eye on these two issues for resolution:
-
-* [https://github.com/jsgoecke/tesla/issues/14](https://github.com/jsgoecke/tesla/issues/14)
-* [https://github.com/jsgoecke/tesla/issues/15](https://github.com/jsgoecke/tesla/issues/15)
 
 ## Copyright & License
 
