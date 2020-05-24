@@ -283,6 +283,17 @@ func (v Vehicle) HeatSeat(seat, level int) error {
 	return err
 }
 
+// Sets steering wheel heat on or off
+func (v Vehicle) HeatWheel(on bool) error {
+	//requires climate to be set first
+	err := v.StartAirConditioning()
+
+	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_steering_wheel_heater_request"
+	theJson := `{"on": "` + strconv.FormatBool(on) + `"}`
+	_, err = sendCommand(apiUrl, []byte(theJson))
+	return err
+}
+
 // Sends a command to the vehicle
 func sendCommand(url string, reqBody []byte) ([]byte, error) {
 	body, err := ActiveClient.post(url, reqBody)
