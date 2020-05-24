@@ -39,7 +39,7 @@ func (v Vehicle) AutoparkReverse() error {
 
 // autoPark performs the auto park/summon request for the vehicle
 func (v Vehicle) autoPark(action string) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/autopark_request"
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/autopark_request"
 	driveState, _ := v.DriveState()
 	autoParkRequest := &AutoParkRequest{
 		VehicleID: v.VehicleID,
@@ -49,7 +49,7 @@ func (v Vehicle) autoPark(action string) error {
 	}
 	body, _ := json.Marshal(autoParkRequest)
 
-	_, err := sendCommand(apiUrl, body)
+	_, err := sendCommand(apiURL, body)
 	return err
 }
 
@@ -62,16 +62,16 @@ func (v Vehicle) autoPark(action string) error {
 // 	} else {
 // 		command += "off"
 // 	}
-// 	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/" + command
-// 	fmt.Println(apiUrl)
-// 	_, err := sendCommand(apiUrl, nil)
+// 	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/" + command
+// 	fmt.Println(apiURL)
+// 	_, err := sendCommand(apiURL, nil)
 // 	return err
 // }
 
 // TriggerHomelink opens and closes the configured Homelink garage door of the vehicle
 // This is a toggle and the garage door state is unknown
 func (v Vehicle) TriggerHomelink() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/trigger_homelink"
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/trigger_homelink"
 	driveState, _ := v.DriveState()
 	autoParkRequest := &AutoParkRequest{
 		Lat: driveState.Latitude,
@@ -79,14 +79,14 @@ func (v Vehicle) TriggerHomelink() error {
 	}
 	body, _ := json.Marshal(autoParkRequest)
 
-	_, err := sendCommand(apiUrl, body)
+	_, err := sendCommand(apiURL, body)
 	return err
 }
 
 // Wakeup wakes up the vehicle when it is powered off
 func (v Vehicle) Wakeup() (*Vehicle, error) {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/wake_up"
-	body, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/wake_up"
+	body, err := sendCommand(apiURL, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -100,79 +100,79 @@ func (v Vehicle) Wakeup() (*Vehicle, error) {
 
 // OpenChargePort opens the vehicle's charge port
 func (v Vehicle) OpenChargePort() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_port_door_open"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_port_door_open"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // ResetValetPIN resets the valet mode PIN, if set
 func (v Vehicle) ResetValetPIN() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/reset_valet_pin"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/reset_valet_pin"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // SetChargeLimitStandard sets the charge limit to the default setting
 func (v Vehicle) SetChargeLimitStandard() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_standard"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_standard"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // SetChargeLimitMax sets the charge limit to the maximum value
 func (v Vehicle) SetChargeLimitMax() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_max_range"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_max_range"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // SetChargeLimit sets the charge limit to a supplied percent value
 func (v Vehicle) SetChargeLimit(percent int) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_charge_limit"
-	theJson := `{"percent": ` + strconv.Itoa(percent) + `}`
-	_, err := ActiveClient.post(apiUrl, []byte(theJson))
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_charge_limit"
+	postJSON := `{"percent": ` + strconv.Itoa(percent) + `}`
+	_, err := ActiveClient.post(apiURL, []byte(postJSON))
 	return err
 }
 
 // StartCharging starts the charging of the vehicle if charging cable is inserted
 func (v Vehicle) StartCharging() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_start"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_start"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // StopCharging stops a vehicle's charge session
 func (v Vehicle) StopCharging() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_stop"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/charge_stop"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // FlashLights flashes the lights of the vehicle
 func (v Vehicle) FlashLights() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/flash_lights"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/flash_lights"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // HonkHorn honks the vehicle's horn
 func (v *Vehicle) HonkHorn() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/honk_horn"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/honk_horn"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // UnlockDoors unlocks the vehicle's doors
 func (v Vehicle) UnlockDoors() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/door_unlock"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/door_unlock"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // LockDoors locks the vehicle's doors
 func (v Vehicle) LockDoors() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/door_lock"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/door_lock"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
@@ -181,9 +181,9 @@ func (v Vehicle) LockDoors() error {
 func (v Vehicle) SetTemperature(driver float64, passenger float64) error {
 	driveTemp := strconv.FormatFloat(driver, 'f', -1, 32)
 	passengerTemp := strconv.FormatFloat(passenger, 'f', -1, 32)
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_temps"
-	theJson := `{"driver_temp": "` + driveTemp + `", "passenger_temp":` + passengerTemp + `}`
-	_, err := ActiveClient.post(apiUrl, []byte(theJson))
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_temps"
+	postJSON := `{"driver_temp": "` + driveTemp + `", "passenger_temp":` + passengerTemp + `}`
+	_, err := ActiveClient.post(apiURL, []byte(postJSON))
 
 	return err
 }
@@ -197,32 +197,32 @@ func (v Vehicle) StartAirConditioning() error {
 
 // StopAirConditioning stops the vehicle's air conditioner
 func (v Vehicle) StopAirConditioning() error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/auto_conditioning_stop"
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/auto_conditioning_stop"
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // MovePanoRoof controls the state of the panoramic roof. The approximate percent open
 // values for each state are open = 100%, close = 0%, comfort = 80%, vent = %15, move = set %
 func (v Vehicle) MovePanoRoof(state string, percent int) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/sun_roof_control"
-	theJson := `{"state": "` + state + `", "percent":` + strconv.Itoa(percent) + `}`
-	_, err := ActiveClient.post(apiUrl, []byte(theJson))
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/sun_roof_control"
+	postJSON := `{"state": "` + state + `", "percent":` + strconv.Itoa(percent) + `}`
+	_, err := ActiveClient.post(apiURL, []byte(postJSON))
 	return err
 }
 
 // Start starts the car by turning it on. Requires the Tesla account password
 func (v Vehicle) Start(password string) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_start_drive?password=" + password
-	_, err := sendCommand(apiUrl, nil)
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_start_drive?password=" + password
+	_, err := sendCommand(apiURL, nil)
 	return err
 }
 
 // OpenTrunk opens the trunk. Valid trunk values are 'front' and 'rear'
 func (v Vehicle) OpenTrunk(trunk string) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/trunk_open" // ?which_trunk=" + trunk
-	theJson := `{"which_trunk": "` + trunk + `"}`
-	_, err := ActiveClient.post(apiUrl, []byte(theJson))
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/trunk_open" // ?which_trunk=" + trunk
+	postJSON := `{"which_trunk": "` + trunk + `"}`
+	_, err := ActiveClient.post(apiURL, []byte(postJSON))
 	return err
 }
 
@@ -238,7 +238,7 @@ func (v Vehicle) CloseWindows() error {
 
 // windows vents or closes the windows
 func (v Vehicle) windows(action string) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/window_control"
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/window_control"
 	windowRequest := struct {
 		VehicleID string `json:"command"`
 		Lat       int    `json:"lat"`
@@ -248,15 +248,15 @@ func (v Vehicle) windows(action string) error {
 	}
 	body, _ := json.Marshal(windowRequest)
 
-	_, err := sendCommand(apiUrl, body)
+	_, err := sendCommand(apiURL, body)
 	return err
 }
 
 // SetSentryMode controls Sentry Mode's active state (true/false)
 func (v Vehicle) SetSentryMode(on bool) error {
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_sentry_mode"
-	theJson := `{"on": "` + strconv.FormatBool(on) + `"}`
-	_, err := sendCommand(apiUrl, []byte(theJson))
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/set_sentry_mode"
+	postJSON := `{"on": "` + strconv.FormatBool(on) + `"}`
+	_, err := sendCommand(apiURL, []byte(postJSON))
 	return err
 }
 
@@ -267,7 +267,7 @@ func (v Vehicle) HeatSeat(seat, level int) error {
 	if err != nil {
 		panic(err)
 	}
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_seat_heater_request"
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_seat_heater_request"
 	seatRequest := struct {
 		Heater int `json:"heater"`
 		Level  int `json:"level"`
@@ -275,7 +275,7 @@ func (v Vehicle) HeatSeat(seat, level int) error {
 		seat, level,
 	}
 	body, _ := json.Marshal(seatRequest)
-	_, err = sendCommand(apiUrl, body)
+	_, err = sendCommand(apiURL, body)
 	return err
 }
 
@@ -284,9 +284,9 @@ func (v Vehicle) HeatWheel(on bool) error {
 	//requires climate to be set first
 	err := v.StartAirConditioning()
 
-	apiUrl := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_steering_wheel_heater_request"
-	theJson := `{"on": "` + strconv.FormatBool(on) + `"}`
-	_, err = sendCommand(apiUrl, []byte(theJson))
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/remote_steering_wheel_heater_request"
+	postJSON := `{"on": "` + strconv.FormatBool(on) + `"}`
+	_, err = sendCommand(apiURL, []byte(postJSON))
 	return err
 }
 
