@@ -52,27 +52,36 @@ type ChargeState struct {
 
 // ClimateState contains the current climate states availale from the vehicle
 type ClimateState struct {
-	InsideTemp              float64     `json:"inside_temp"`
-	OutsideTemp             float64     `json:"outside_temp"`
-	DriverTempSetting       float64     `json:"driver_temp_setting"`
-	PassengerTempSetting    float64     `json:"passenger_temp_setting"`
-	LeftTempDirection       float64     `json:"left_temp_direction"`
-	RightTempDirection      float64     `json:"right_temp_direction"`
-	IsAutoConditioningOn    bool        `json:"is_auto_conditioning_on"`
-	IsFrontDefrosterOn      bool        `json:"is_front_defroster_on"`
-	IsRearDefrosterOn       bool        `json:"is_rear_defroster_on"`
-	FanStatus               interface{} `json:"fan_status"`
-	IsClimateOn             bool        `json:"is_climate_on"`
-	MinAvailTemp            float64     `json:"min_avail_temp"`
-	MaxAvailTemp            float64     `json:"max_avail_temp"`
-	SeatHeaterLeft          int         `json:"seat_heater_left"`
-	SeatHeaterRight         int         `json:"seat_heater_right"`
-	SeatHeaterRearLeft      int         `json:"seat_heater_rear_left"`
-	SeatHeaterRearRight     int         `json:"seat_heater_rear_right"`
-	SeatHeaterRearCenter    int         `json:"seat_heater_rear_center"`
-	SeatHeaterRearRightBack int         `json:"seat_heater_rear_right_back"`
-	SeatHeaterRearLeftBack  int         `json:"seat_heater_rear_left_back"`
-	SmartPreconditioning    bool        `json:"smart_preconditioning"`
+	BatteryHeater              bool    `json:"battery_heater"`
+	BatteryHeaterNoPower       bool    `json:"battery_heater_no_power"`
+	ClimateKeeperMode          string  `json:"climate_keeper_mode"`
+	DefrostMode                int     `json:"defrost_mode"`
+	DriverTempSetting          float64 `json:"driver_temp_setting"`
+	FanStatus                  int     `json:"fan_status"`
+	InsideTemp                 float64 `json:"inside_temp"`
+	IsAutoConditioningOn       bool    `json:"is_auto_conditioning_on"`
+	IsClimateOn                bool    `json:"is_climate_on"`
+	IsFrontDefrosterOn         bool    `json:"is_front_defroster_on"`
+	IsPreconditioning          bool    `json:"is_preconditioning"`
+	IsRearDefrosterOn          bool    `json:"is_rear_defroster_on"`
+	LeftTempDirection          int     `json:"left_temp_direction"`
+	MaxAvailTemp               float64 `json:"max_avail_temp"`
+	MinAvailTemp               float64 `json:"min_avail_temp"`
+	OutsideTemp                float64 `json:"outside_temp"`
+	PassengerTempSetting       float64 `json:"passenger_temp_setting"`
+	RemoteHeaterControlEnabled bool    `json:"remote_heater_control_enabled"`
+	RightTempDirection         int     `json:"right_temp_direction"`
+	SeatHeaterLeft             int     `json:"seat_heater_left"`
+	SeatHeaterRearCenter       int     `json:"seat_heater_rear_center"`
+	SeatHeaterRearLeft         int     `json:"seat_heater_rear_left"`
+	SeatHeaterRearRight        int     `json:"seat_heater_rear_right"`
+	SeatHeaterRight            int     `json:"seat_heater_right"`
+	SeatHeaterThirdRowLeft     int     `json:"seat_heater_third_row_left"`
+	SeatHeaterThirdRowRight    int     `json:"seat_heater_third_row_right"`
+	SideMirrorHeaters          bool    `json:"side_mirror_heaters"`
+	SteeringWheelHeater        bool    `json:"steering_wheel_heater"`
+	Timestamp                  int64   `json:"timestamp"`
+	WiperBladeHeater           bool    `json:"wiper_blade_heater"`
 }
 
 // DriveState contains the current drive state of the vehicle
