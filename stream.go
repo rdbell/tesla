@@ -10,11 +10,13 @@ import (
 )
 
 var (
+	// StreamParams are the params sent to the event stream URL
 	StreamParams = "speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading"
+	// StreamingURL is the base URL for pulling streaming events
 	StreamingURL = "https://streaming.vn.teslamotors.com"
 )
 
-// The event returned by the vehicle by the Tesla API
+// StreamEvent is the event returned by the vehicle by the Tesla API
 type StreamEvent struct {
 	Timestamp  time.Time `json:"timestamp"`
 	Speed      int       `json:"speed"`
@@ -31,9 +33,9 @@ type StreamEvent struct {
 	Heading    int       `json:"heading"`
 }
 
-// Requests a stream from the vehicle and returns a Go channel
+// Stream requests a stream from the vehicle and returns a Go channel
 func (v Vehicle) Stream() (chan *StreamEvent, chan error, error) {
-	url := StreamingURL + "/stream/" + strconv.Itoa(v.VehicleID) + "/?values=" + StreamParams
+	url := StreamingURL + "/streaming/" + strconv.Itoa(v.VehicleID) + "/?values=" + StreamParams
 	req, _ := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(ActiveClient.Auth.Email, v.Tokens[0])
 	resp, err := ActiveClient.HTTP.Do(req)
@@ -49,7 +51,7 @@ func (v Vehicle) Stream() (chan *StreamEvent, chan error, error) {
 	return eventChan, errChan, nil
 }
 
-// Reads the stream itself from the vehicle
+// readStream reads the stream itself from the vehicle
 func readStream(resp *http.Response, eventChan chan *StreamEvent, errChan chan error) {
 	reader := bufio.NewReader(resp.Body)
 	scanner := bufio.NewScanner(reader)
@@ -67,7 +69,7 @@ func readStream(resp *http.Response, eventChan chan *StreamEvent, errChan chan e
 	errChan <- errors.New("HTTP stream closed")
 }
 
-// Parses the stream event, setting all of the appropriate data types
+// parseStreamEvent parses the stream event, setting all of the appropriate data types
 func parseStreamEvent(event string) (*StreamEvent, error) {
 	data := strings.Split(event, ",")
 	if len(data) != 13 {
