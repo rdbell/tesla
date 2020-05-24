@@ -1,11 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
-	"github.com/jsgoecke/tesla"
+	"github.com/k0kubun/pp"
+	"github.com/rdbell/tesla"
 )
 
 func main() {
@@ -37,7 +37,7 @@ func main() {
 	fmt.Println(vehicle.DriveState())
 	fmt.Println(vehicle.GuiSettings())
 	fmt.Println(vehicle.VehicleState())
-	fmt.Println(vehicle.HonkHorn())
+	//fmt.Println(vehicle.HonkHorn())
 	fmt.Println(vehicle.FlashLights())
 	fmt.Println(vehicle.Wakeup())
 	fmt.Println(vehicle.OpenChargePort())
@@ -62,8 +62,8 @@ func main() {
 	fmt.Println(vehicle.TriggerHomelink())
 
 	// // Take care with these, as the car will move
-	fmt.Println(vehicle.AutoparkForward())
-	fmt.Println(vehicle.AutoparkReverse())
+	//fmt.Println(vehicle.AutoparkForward())
+	//fmt.Println(vehicle.AutoparkReverse())
 	// Take care with these, as the car will move
 
 	// Stream vehicle events
@@ -71,21 +71,19 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 		return
-	} else {
-		for {
-			select {
-			case event := <-eventChan:
-				eventJSON, _ := json.Marshal(event)
-				fmt.Println(string(eventJSON))
-			case err = <-errChan:
-				fmt.Println(err)
-				if err.Error() == "HTTP stream closed" {
-					fmt.Println("Reconnecting!")
-					eventChan, errChan, err = vehicle.Stream()
-					if err != nil {
-						fmt.Println(err)
-						return
-					}
+	}
+	for {
+		select {
+		case event := <-eventChan:
+			pp.Print(event)
+		case err = <-errChan:
+			fmt.Println(err)
+			if err.Error() == "HTTP stream closed" {
+				fmt.Println("Reconnecting!")
+				eventChan, errChan, err = vehicle.Stream()
+				if err != nil {
+					fmt.Println(err)
+					return
 				}
 			}
 		}
