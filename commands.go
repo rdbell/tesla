@@ -290,6 +290,22 @@ func (v Vehicle) HeatWheel(on bool) error {
 	return err
 }
 
+// ScheduleSoftwareUpdate schedules the installation of the available software update.
+// An update must already be available for this command to work
+func (v Vehicle) ScheduleSoftwareUpdate(offset int64) error {
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/schedule_software_update"
+	theJSON := `{"offset_sec": ` + strconv.FormatInt(offset, 10) + `}`
+	_, err := ActiveClient.post(apiURL, []byte(theJSON))
+	return err
+}
+
+// CancelSoftwareUpdate cancels a previously-scheduled software update that has not yet started
+func (v Vehicle) CancelSoftwareUpdate() error {
+	apiURL := BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/command/cancel_software_update"
+	_, err := sendCommand(apiURL, nil)
+	return err
+}
+
 // sendCommand sends a command to the vehicle
 func sendCommand(url string, reqBody []byte) ([]byte, error) {
 	body, err := ActiveClient.post(url, reqBody)
