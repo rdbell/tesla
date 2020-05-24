@@ -5,6 +5,17 @@ import (
 	"strconv"
 )
 
+// VehicleData represents the full set of vehicle data
+type VehicleData struct {
+	Vehicle
+	ChargeState   ChargeState   `json:"charge_state"`
+	ClimateState  ClimateState  `json:"climate_state"`
+	DriveState    DriveState    `json:"drive_state"`
+	GuiSettings   GuiSettings   `json:"gui_settings"`
+	VehicleConfig VehicleConfig `json:"vehicle_config"`
+	VehicleState  VehicleState  `json:"vehicle_state"`
+}
+
 // ChargeState contains the current charge states that exist within the vehicle
 type ChargeState struct {
 	BatteryHeaterOn             bool        `json:"battery_heater_on"`
@@ -280,6 +291,22 @@ func (v Vehicle) VehicleState() (*VehicleState, error) {
 		return nil, err
 	}
 	return stateRequest.Response.VehicleState, nil
+}
+
+// VehicleData retrieves the full set of vehicle data.
+func (v Vehicle) VehicleData() (*VehicleData, error) {
+	resp := &struct {
+		VehicleData VehicleData `json:"response"`
+	}{}
+	body, err := ActiveClient.get(BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/vehicle_data")
+	if err != nil {
+		return nil, err
+	}
+	err = json.Unmarshal(body, resp)
+	if err != nil {
+		return nil, err
+	}
+	return &resp.VehicleData, nil
 }
 
 // fetchState fetches the a given state of the vehicle
