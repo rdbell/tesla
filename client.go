@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Required authorization credentials for the Tesla API
+// Auth holds authorization credentials for the Tesla API
 type Auth struct {
 	GrantType    string `json:"grant_type"`
 	ClientID     string `json:"client_id"`
@@ -20,8 +20,7 @@ type Auth struct {
 	StreamingURL string
 }
 
-// The token and related elements returned after a successful auth
-// by the Tesla API
+// Token is the token and related elements returned after a successful auth by the Tesla API
 type Token struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
@@ -29,8 +28,7 @@ type Token struct {
 	Expires     int64
 }
 
-// Provides the client and associated elements for interacting with the
-// Tesla API
+// Client provides the client and associated elements for interacting with the Tesla API
 type Client struct {
 	Auth  *Auth
 	Token *Token
@@ -38,12 +36,15 @@ type Client struct {
 }
 
 var (
-	AuthURL      = "https://owner-api.teslamotors.com/oauth/token"
-	BaseURL      = "https://owner-api.teslamotors.com/api/1"
+	// AuthURL is the URL for fetching oauth token
+	AuthURL = "https://owner-api.teslamotors.com/oauth/token"
+	// BaseURL is the base API url
+	BaseURL = "https://owner-api.teslamotors.com/api/1"
+	// ActiveClient is an instance of the API client
 	ActiveClient *Client
 )
 
-// Generates a new client for the Tesla API
+// NewClient generates a new client for the Tesla API
 func NewClient(auth *Auth) (*Client, error) {
 	if auth.URL == "" {
 		auth.URL = BaseURL
