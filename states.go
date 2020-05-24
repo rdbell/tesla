@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// Contains the current charge states that exist within the vehicle
+// ChargeState contains the current charge states that exist within the vehicle
 type ChargeState struct {
 	ChargingState               string      `json:"charging_state"`
 	ChargeLimitSoc              int         `json:"charge_limit_soc"`
@@ -50,7 +50,7 @@ type ChargeState struct {
 	ManagedChargingStartTime    interface{} `json:"managed_charging_start_time"`
 }
 
-// Contains the current climate states availale from the vehicle
+// ClimateState contains the current climate states availale from the vehicle
 type ClimateState struct {
 	InsideTemp              float64     `json:"inside_temp"`
 	OutsideTemp             float64     `json:"outside_temp"`
@@ -59,7 +59,7 @@ type ClimateState struct {
 	LeftTempDirection       float64     `json:"left_temp_direction"`
 	RightTempDirection      float64     `json:"right_temp_direction"`
 	IsAutoConditioningOn    bool        `json:"is_auto_conditioning_on"`
-	IsFrontDefrosterOn      int         `json:"is_front_defroster_on"`
+	IsFrontDefrosterOn      bool        `json:"is_front_defroster_on"`
 	IsRearDefrosterOn       bool        `json:"is_rear_defroster_on"`
 	FanStatus               interface{} `json:"fan_status"`
 	IsClimateOn             bool        `json:"is_climate_on"`
@@ -75,7 +75,7 @@ type ClimateState struct {
 	SmartPreconditioning    bool        `json:"smart_preconditioning"`
 }
 
-// Contains the current drive state of the vehicle
+// DriveState contains the current drive state of the vehicle
 type DriveState struct {
 	ShiftState interface{} `json:"shift_state"`
 	Speed      float64     `json:"speed"`
@@ -85,7 +85,7 @@ type DriveState struct {
 	GpsAsOf    int64       `json:"gps_as_of"`
 }
 
-// Contains the current GUI settings of the vehicle
+// GuiSettings contains the current GUI settings of the vehicle
 type GuiSettings struct {
 	GuiDistanceUnits    string `json:"gui_distance_units"`
 	GuiTemperatureUnits string `json:"gui_temperature_units"`
@@ -94,7 +94,7 @@ type GuiSettings struct {
 	GuiRangeDisplay     string `json:"gui_range_display"`
 }
 
-// Contains the current state of the vehicle
+// VehicleState contains the current state of the vehicle
 type VehicleState struct {
 	APIVersion              int     `json:"api_version"`
 	AutoParkState           string  `json:"autopark_state"`
@@ -133,7 +133,7 @@ type VehicleState struct {
 	WheelType               string  `json:"wheel_type"`
 }
 
-// Represents the request to get the states of the vehicle
+// StateRequest represents the request to get the states of the vehicle
 type StateRequest struct {
 	Response struct {
 		*ChargeState
@@ -144,12 +144,12 @@ type StateRequest struct {
 	} `json:"response"`
 }
 
-// The response when a state is requested
+// Response represents a state request response from the API server
 type Response struct {
 	Bool bool `json:"response"`
 }
 
-// Returns if the vehicle is mobile enabled for Tesla API control
+// MobileEnabled returns a flag indicating whether the vehicle is mobile enabled for Tesla API control
 func (v *Vehicle) MobileEnabled() (bool, error) {
 	body, err := ActiveClient.get(BaseURL + "/vehicles/" + strconv.FormatInt(v.ID, 10) + "/mobile_enabled")
 	if err != nil {
@@ -163,7 +163,7 @@ func (v *Vehicle) MobileEnabled() (bool, error) {
 	return response.Bool, nil
 }
 
-// Returns the charge state of the vehicle
+// ChargeState returns the charge state of the vehicle
 func (v *Vehicle) ChargeState() (*ChargeState, error) {
 	stateRequest, err := fetchState("/charge_state", v.ID)
 	if err != nil {
@@ -172,7 +172,7 @@ func (v *Vehicle) ChargeState() (*ChargeState, error) {
 	return stateRequest.Response.ChargeState, nil
 }
 
-// Returns the climate state of the vehicle
+// ClimateState returns the climate state of the vehicle
 func (v Vehicle) ClimateState() (*ClimateState, error) {
 	stateRequest, err := fetchState("/climate_state", v.ID)
 	if err != nil {
@@ -181,6 +181,7 @@ func (v Vehicle) ClimateState() (*ClimateState, error) {
 	return stateRequest.Response.ClimateState, nil
 }
 
+// DriveState returns the drive state of the vehicle
 func (v Vehicle) DriveState() (*DriveState, error) {
 	stateRequest, err := fetchState("/drive_state", v.ID)
 	if err != nil {
@@ -189,7 +190,7 @@ func (v Vehicle) DriveState() (*DriveState, error) {
 	return stateRequest.Response.DriveState, nil
 }
 
-// Returns the GUI settings of the vehicle
+// GuiSettings returns the GUI settings of the vehicle
 func (v Vehicle) GuiSettings() (*GuiSettings, error) {
 	stateRequest, err := fetchState("/gui_settings", v.ID)
 	if err != nil {
@@ -198,6 +199,7 @@ func (v Vehicle) GuiSettings() (*GuiSettings, error) {
 	return stateRequest.Response.GuiSettings, nil
 }
 
+// VehicleState returns the vehicle state
 func (v Vehicle) VehicleState() (*VehicleState, error) {
 	stateRequest, err := fetchState("/vehicle_state", v.ID)
 	if err != nil {
@@ -206,7 +208,7 @@ func (v Vehicle) VehicleState() (*VehicleState, error) {
 	return stateRequest.Response.VehicleState, nil
 }
 
-// A utility function to fetch the appropriate state of the vehicle
+// fetchState fetches the a given state of the vehicle
 func fetchState(resource string, id int64) (*StateRequest, error) {
 	stateRequest := &StateRequest{}
 	body, err := ActiveClient.get(BaseURL + "/vehicles/" + strconv.FormatInt(id, 10) + "/data_request" + resource)
